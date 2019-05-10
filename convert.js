@@ -26,6 +26,6 @@ csv()
 
 })
 
-app.all('*', (req, res) => {
-  res.status(405).send({ error: 'only POST requests are accepted' })
-})
+// app.all('*', (req, res) => {
+//   res.status(405).send({ error: 'only POST requests are accepted' })
+// })

@@ -1,12 +1,14 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.js", "use": "@now/node" }
+    { "src": "convert.js", "use": "@now/node" },
+    { "src": "index.html", "use": "@now/static" }
   ],
   "alias": ["csv-to-json"],
   "github": {
     "enabled": true
   },
-  "routes": [{ "src": "/", "dest": "/index.js", "headers": { "cache-control": "s-maxage=43200, max-age=0" } }]
+  "routes": [{ "src": "/convert",  "methods": "POST", "dest": "/convert.js", "headers": { "cache-control": "s-maxage=43200, max-age=0" } },
+    { "src": "/",  "dest": "/index.html", "headers": { "cache-control": "s-maxage=43200, max-age=0" } }]
 
 }
