@@ -30,8 +30,10 @@
           class="pointer f6 link dim br-pill ph3 pv2 mb2 dib white bg-black"
           >Convert to JSON</a
         >
-        <div class="mt4 dark-red b" v-if="errordata">{{errordata}}</div>
-        <div class="mt4 dark-red b" v-if="jsondata == '[]'">Malformed CSV Data</div>
+        <div class="mt4 dark-red b" v-if="errordata">{{ errordata }}</div>
+        <div class="mt4 dark-red b" v-if="jsondata == '[]'">
+          Malformed CSV Data
+        </div>
         <div class="mt4" v-if="jsondata && jsondata !== '[]'">
           <label for="json" class="f6 b db mb2">JSON </label>
           <textarea
@@ -71,9 +73,8 @@
         el: "#app",
         methods: {
           convertCSV() {
-
             _this = this;
-            _this.errordata = ""
+            _this.errordata = "";
             axios({
               method: "post",
               url: "/convert",
@@ -86,7 +87,7 @@
               })
               .catch(function(error) {
                 console.log(error);
-                _this.errordata = error
+                _this.errordata = error;
               });
           }
         },

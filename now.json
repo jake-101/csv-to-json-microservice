@@ -8,7 +8,7 @@
   "github": {
     "enabled": false
   },
-  "routes": [{ "src": "/convert",  "methods": ["POST"], "dest": "/convert.js", "headers": { "cache-control": "s-maxage=43200, max-age=0" } },
+  "routes": [{ "src": "/convert", "dest": "/convert.js", "headers": { "cache-control": "s-maxage=43200, max-age=0" } },
     { "src": "/",  "dest": "/index.html", "headers": { "cache-control": "s-maxage=43200, max-age=0" } }]
 
 }
