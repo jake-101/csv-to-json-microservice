@@ -15,14 +15,24 @@ app.post('*', (req, res) => {
     return res.status(400).send({ error: 'no data in the request' })
   }
   console.log(req)
+  let arr = []
 csv()
 .fromString(req.body)
-.then((jsonObj)=>{
-  console.log(jsonObj);
-  res.set('Content-Type', 'application/json')
-  res.status(200).send(JSON.stringify(jsonObj, null, 4))
+.subscribe((json,lineNumber)=>{
+    console.log(lineNumber, 'line number')
+arr.push(json)  }
+,onError, onComplete)
 
-})
+function onComplete() {
+  res.set('Content-Type', 'application/json')
+  res.status(200).send(JSON.stringify(arr, null, 4))
+}
+
+function onError() {
+
+  console.log('error')
+}
+
 
 })
 

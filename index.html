@@ -1,62 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
   <title>CSV to JSON Microservice</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/tachyons/css/tachyons.min.css"
+  />
   <body class="sans-serif">
-<div class="fl w-100 pa6-l pa4-m pa2-s">
-  <h1 class="f-headline lh-solid mb3">CSV to JSON</h1>
-  <h2 class="f4 lh-copy fw4 black-40">A serverless microservice for <a class="link dim black-50" href="https://zeit.co">Zeit Now</a></h2>
+    <div class="fl w-100 pa6-l pa4-m pa2-s">
+      <h1 class="f-headline lh-solid mb3">CSV to JSON</h1>
+      <h2 class="f4 lh-copy fw4 black-40">
+        A serverless microservice for
+        <a class="link dim black-50" href="https://zeit.co">Zeit Now</a>
+      </h2>
 
-  <div id="app">
-          <div class="black-80">
-            <label for="csv" class="f6 b db mb2">Paste in CSV Data </label>
-            <textarea v-model="csv" id="csv" name="csv" class="db border-box hover-black w-100  h5 ba b--black-20 pa2 br2 mb2" aria-describedby="csv"></textarea>
-          </div>
-          <a v-on:click="convertCSV" class="pointer f6 link dim br-pill ph3 pv2 mb2 dib white bg-black">Convert to JSON</a>
-
-        <div class="mt4" v-if="jsondata">
+      <div id="app">
+        <div class="black-80">
+          <label for="csv" class="f6 b db mb2">Paste in CSV Data </label>
+          <textarea
+            v-model="csv"
+            id="csv"
+            name="csv"
+            class="db border-box hover-black w-100  h5 ba b--black-20 pa2 br2 mb2"
+            aria-describedby="csv"
+          ></textarea>
+        </div>
+        <a
+          v-on:click="convertCSV"
+          class="pointer f6 link dim br-pill ph3 pv2 mb2 dib white bg-black"
+          >Convert to JSON</a
+        >
+        <div class="mt4 dark-red b" v-if="errordata">{{errordata}}</div>
+        <div class="mt4 dark-red b" v-if="jsondata == '[]'">Malformed CSV Data</div>
+        <div class="mt4" v-if="jsondata && jsondata !== '[]'">
           <label for="json" class="f6 b db mb2">JSON </label>
-          <textarea v-model="jsondata" id="json" name="json" class="db border-box hover-black w-100 h5 ba b--black-20 pa2 br2 mb2" aria-describedby="json"></textarea>
+          <textarea
+            v-model="jsondata"
+            id="json"
+            name="json"
+            class="db border-box hover-black w-100 h5 ba b--black-20 pa2 br2 mb2"
+            aria-describedby="json"
+          ></textarea>
         </div>
         <div class="mt4 black-80">
-            <p class="f4 lh-copy measure-wide">Send a HTTP POST request with CSV data and have it returned as a JSON object to use in your web projects. </p>
-                <p class="lh-copy measure-wide">Use the <code class="black-60">/convert</code> endpoint and set a header for <code class="black-60">Content-Type: text/plain</code></p>
-            <p class="lh-copy measure-wide f7 b bt pt3 mt5"><a class="link dim gray" href="https://jake101.com">JAKE101.COM</a> | <a class="link dim gray" href="https://github.com/jake-101/csv-to-json-microservice">GITHUB</a></p>
-          </div>
-  </div>
-  
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+          <p class="f4 lh-copy measure-wide">
+            Send a HTTP POST request with CSV data and have it returned as a
+            JSON object to use in your web projects. 5MB request size limit.
+          </p>
+          <p class="lh-copy measure-wide">
+            Use the <code class="black-60">/convert</code> endpoint and set a
+            header for <code class="black-60">Content-Type: text/plain</code>
+          </p>
+          <p class="lh-copy measure-wide f7 b bt pt3 mt5">
+            <a class="link dim gray" href="https://jake101.com">JAKE101.COM</a>
+            |
+            <a
+              class="link dim gray"
+              href="https://github.com/jake-101/csv-to-json-microservice"
+              >GITHUB</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script>
-var app = new Vue({
-  el: '#app',
-  methods: {
-convertCSV(){
-  _this = this
-  axios({
-  method: 'post',
-  url: 'http://localhost:3000/convert',
-  data: _this.csv,
-  headers: {'Content-Type': 'text/plain'}
-})  .then(function (response) {
-    console.log(response);
-    _this.jsondata = JSON.stringify(response.data)
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    <script>
+      var app = new Vue({
+        el: "#app",
+        methods: {
+          convertCSV() {
 
-}
-  },
+            _this = this;
+            _this.errordata = ""
+            axios({
+              method: "post",
+              url: "/convert",
+              data: _this.csv,
+              headers: { "Content-Type": "text/plain" }
+            })
+              .then(function(response) {
+                console.log(response);
+                _this.jsondata = JSON.stringify(response.data);
+              })
+              .catch(function(error) {
+                console.log(error);
+                _this.errordata = error
+              });
+          }
+        },
 
-  data: {
-    csv: '',
-    jsondata: ''
-  }
-})
-</script>
+        data: {
+          csv: "",
+          jsondata: "",
+          errordata: ""
+        }
+      });
+    </script>
   </body>
 </html>
