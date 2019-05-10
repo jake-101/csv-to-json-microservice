@@ -2,9 +2,10 @@
   "version": 2,
   "builds": [
     { "src": "convert.js", "use": "@now/node" },
-    { "src": "index.html", "use": "@now/static" }
+    { "src": "index.html", "use": "@now/static" },
+    { "src": "insomnia.json", "use": "@now/static" }
   ],
-  "alias": ["csv-to-json"],
+  "alias": ["csv-to-json.now.sh"],
   "github": {
     "enabled": false
   },

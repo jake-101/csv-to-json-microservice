@@ -7,7 +7,7 @@
     href="https://unpkg.com/tachyons/css/tachyons.min.css"
   />
   <body class="sans-serif">
-    <div class="fl w-100 pa6-l pa4-m pa2-s">
+    <div class="fl w-100 pa6-l pa4-m pa2">
       <h1 class="f-headline lh-solid mb3">CSV to JSON</h1>
       <h2 class="f4 lh-copy fw4 black-40">
         A serverless microservice for
@@ -61,6 +61,14 @@
               href="https://github.com/jake-101/csv-to-json-microservice"
               >GITHUB</a
             >
+            <a
+              href="https://insomnia.rest/run/?label=CSV%20to%20JSON%20Microservice&uri=https%3A%2F%2Fcsv-to-json.now.sh%2Finsomnia.json"
+              target="_blank"
+              class="fr"
+              ><img
+                src="https://insomnia.rest/images/run.svg"
+                alt="Run in Insomnia"
+            /></a>
           </p>
         </div>
       </div>
@@ -72,10 +80,10 @@
       var app = new Vue({
         el: "#app",
         methods: {
-          convertCSV() {
+        async  convertCSV() {
             _this = this;
             _this.errordata = "";
-            axios({
+           await axios({
               method: "post",
               url: "/convert",
               data: _this.csv,
